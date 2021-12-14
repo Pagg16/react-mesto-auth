@@ -4,38 +4,10 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import { useFormAndValidation } from "../hooks/useFormAndValidation";
 
 function EditProfilePopup(props) {
-  const { values, handleChange, errors, isValid, setValues, resetForm } =
+  const { values, handleChange, errors, isValid, setValues, resetForm, setIsValid } =
     useFormAndValidation();
 
   const dataUser = React.useContext(CurrentUserContext);
-
-  // const [inputValues, setInputValues] = React.useState({ name: "", about: "" });
-  // const [inputsValidity, setInputsValidity] = React.useState({
-  //   name: true,
-  //   about: true,
-  // });
-
-  // const [inputErrorMessages, setInputErrorMessages] = React.useState({
-  //   name: "",
-  //   about: "",
-  // });
-
-  // function handleInputChange(evt) {
-  //   setInputValues({
-  //     ...inputValues,
-  //     [evt.target.name]: evt.target.value,
-  //   });
-
-  //   setInputsValidity({
-  //     ...inputsValidity,
-  //     [evt.target.name]: evt.target.validity.valid,
-  //   });
-
-  //   setInputErrorMessages({
-  //     ...inputErrorMessages,
-  //     [evt.target.name]: evt.target.validationMessage,
-  //   });
-  // }
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
@@ -43,23 +15,22 @@ function EditProfilePopup(props) {
 
     // Передаём значения управляемых компонентов во внешний обработчик
     props.onUpdateUser({
-      name: values.name,
-      about: values.about,
+      name: values.inputOne,
+      about: values.inputTwo,
     });
     resetForm();
   }
 
   React.useEffect(() => {
     if (props.isOpen) {
-      // setInputValues({ name: dataUser.name, about: dataUser.about });
-      setValues({ name: dataUser.name, about: dataUser.about})
+      setValues({ inputOne: dataUser.name, inputTwo: dataUser.about });
+      setIsValid({inputOne: true, inputTwo: true})
     }
-  }, [props.isOpen, dataUser, setValues]);
+  }, [props.isOpen, dataUser, setValues, setIsValid]);
 
   function clickingCloseButton() {
     props.onClose();
-        // setInputsValidity({ name: true, about: true });
-    // setInputErrorMessages({ name: "", about: "" });
+    resetForm();
   }
 
   return (
@@ -70,17 +41,14 @@ function EditProfilePopup(props) {
       name={"popup-profile"}
       textButton={props.textButton}
       title={"Редактировать профиль"}
-      activeValid={
-        isValid.name === true && isValid.about === true
-      }
+      activeValid={isValid.inputOne === true && isValid.inputTwo === true}
     >
       <input
-        value={values.name}
-        // onChange={handleInputChange}
+        value={values.inputOne}
         onChange={handleChange}
         type="text"
         id="user-name"
-        name="name"
+        name="inputOne"
         placeholder="Имя"
         className="popup__filed"
         minLength={2}
@@ -90,18 +58,17 @@ function EditProfilePopup(props) {
       />
       <span
         className={`error user-name-error ${
-          isValid.name ? "" : "popup__error_visible"
+          isValid.inputOne ? "" : "popup__error_visible"
         }`}
       >
-        {errors.name}
+        {errors.inputOne}
       </span>
       <input
-        value={values.about}
-        // onChange={handleInputChange}
+        value={values.inputTwo}
         onChange={handleChange}
         type="text"
         id="user-job"
-        name="about"
+        name="inputTwo"
         placeholder="Работа"
         className="popup__filed"
         minLength={2}
@@ -111,10 +78,10 @@ function EditProfilePopup(props) {
       />
       <span
         className={`error user-job-error ${
-          isValid.about ? "" : "popup__error_visible"
+          isValid.inputTwo ? "" : "popup__error_visible"
         }`}
       >
-        {errors.about}
+        {errors.inputTwo}
       </span>
     </PopupWithForm>
   );

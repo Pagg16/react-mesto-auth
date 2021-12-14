@@ -1,0 +1,11 @@
+.header__email-text {
+  display: flex;
+  margin-top: 6px;
+}
+
+@media screen and (max-width: 767px) {
+  .header__email-text {
+    flex-direction: column-reverse;
+    margin: 0 0 10px;
+  }
+}

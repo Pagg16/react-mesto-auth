@@ -1,4 +1,5 @@
 import React from "react";
+import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -9,13 +10,27 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import PopupDeleting from "./PopupDeleting";
+import Register from "./Register";
+import Login from "./Login";
+import ProtectedRoute from "./ProtectedRoute";
+import * as auth from "../utils/auth";
+import NotificationPopup from "./NotificationPopup";
+import errorIcon from "../images/errorIcon.png";
+import fortunatelyIcon from "../images/fortunatelyIcon.png";
 
-function App() {
+function App(props) {
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [email, setEmail] = React.useState("");
+
   //переменные состояния открытия попапов
   const [isEditAvatarPopupOpen, setIsEditAvatarClick] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfileClick] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlaceClick] = React.useState(false);
   const [isPopupDeletingOpen, setIsPopupDeletingClick] = React.useState(false);
+  const [isSuccessfulRegistrationOpen, setIsSuccessfulRegistrationOpen] =
+    React.useState(false);
+  const [isFailureRegistrationOpen, setIsFailureRegistrationOpen] =
+    React.useState(false);
 
   const [delCard, setDelCard] = React.useState({});
 
@@ -38,6 +53,23 @@ function App() {
     name: "",
     link: "",
   });
+
+  React.useEffect(() => {
+    if (localStorage.getItem("jwt")) {
+      // проверяем токен пользователя
+      checkToken();
+    }
+  },[]);
+
+  function checkToken() {
+    auth.checkToken(localStorage.getItem("jwt")).then((res) => {
+      if (res) {
+        setLoggedIn(true);
+        setEmail(res.data.email);
+        props.history.push("/mainpart");
+      }
+    });
+  }
 
   //загрузка данных с сервера
   React.useEffect(() => {
@@ -110,6 +142,8 @@ function App() {
     setSelectedCard({ name: "", link: "" });
     setIsPopupDeletingClick(false);
     setDelCard({});
+    setIsFailureRegistrationOpen(false);
+    setIsSuccessfulRegistrationOpen(false);
   }
 
   //закрытие попапов по нажатию на esc
@@ -180,38 +214,63 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
-        <Main
-          handlePopupDeletingClick={handlePopupDeletingClick}
-          handleEditAvatarClick={handleEditAvatarClick}
-          handleEditProfileClick={handleEditProfileClick}
-          handleAddPlaceClick={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          cards={cards}
-          handleCardLike={handleCardLike}
+        <Header
+          loggedIn={loggedIn}
+          email={email}
+          setLoggedIn={setLoggedIn}
         />
+        <Switch>
+          <Route path="/login">
+            <Login
+              setIsFailureRegistrationOpen={setIsFailureRegistrationOpen}
+              checkToken={checkToken}
+            />
+          </Route>
+          <Route path="/register">
+            <Register
+              setIsSuccessfulRegistrationOpen={setIsSuccessfulRegistrationOpen}
+              setIsFailureRegistrationOpen={setIsFailureRegistrationOpen}
+              setLoggedIn={setLoggedIn}
+              setEmail={setEmail}
+            />
+          </Route>
+          <ProtectedRoute
+            path="/mainpart"
+            loggedIn={loggedIn}
+            component={Main}
+            cards={cards}
+            handlePopupDeletingClick={handlePopupDeletingClick}
+            handleEditAvatarClick={handleEditAvatarClick}
+            handleEditProfileClick={handleEditProfileClick}
+            handleAddPlaceClick={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            handleCardLike={handleCardLike}
+          >
+            <Footer />
+          </ProtectedRoute>
 
+          <Route exact path="/">
+            {loggedIn ? <Redirect to="/mainpart" /> : <Redirect to="/login" />}
+          </Route>
+        </Switch>
         <EditProfilePopup
           textButton={textButtonUserData}
           onUpdateUser={handleUpdateUser}
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
         />
-
         <EditAvatarPopup
           textButton={textButtonAvatar}
           onUpdateAvatar={handleUpdateUserAvatar}
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
         />
-
         <AddPlacePopup
           textButton={textButtonNewCard}
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           handleSubmit={handleAddPlaceSubmit}
         />
-
         <PopupDeleting
           onCardDelete={handleCardDelete}
           card={delCard}
@@ -220,10 +279,23 @@ function App() {
           textButton={textButtonPopupDelCard}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-        <Footer />
+        <NotificationPopup
+          isOpen={isSuccessfulRegistrationOpen}
+          text={"Вы успешно зарегистрировались!"}
+          image={fortunatelyIcon}
+          link={"/mainpart"}
+          onClose={closeAllPopups}
+        />
+        <NotificationPopup
+          isOpen={isFailureRegistrationOpen}
+          text={"Что-то пошло не так! Попробуйте ещё раз."}
+          image={errorIcon}
+          link={"/login"}
+          onClose={closeAllPopups}
+        />
       </div>
     </CurrentUserContext.Provider>
   );
 }
 
-export default App;
+export default withRouter(App);

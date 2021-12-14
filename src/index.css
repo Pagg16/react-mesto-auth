@@ -5,6 +5,7 @@
 
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__navigation/header__navigation.css);
 
 @import url(./blocks/profile/profile.css);
 @import url(./blocks/profile/__avatar/profile__avatar.css);
@@ -61,5 +62,19 @@
 @import url(./blocks/popup/__submit-button/_hover/popup__submit-button_hover.css);
 @import url(./blocks/popup/__submit-button/_post/popup__submit-button_post.css);
 @import url(./blocks/popup/__container/_profile-edit/popup__container_profile-edit.css);
-
 @import url(./blocks/popup/__container/_delete-confirmation/popup__container_delete-confirmation.css);
+
+@import url(./blocks/register/register.css);
+@import url(./blocks/register/__welcome/register__welcome.css);
+@import url(./blocks/register/__filed/register__filed.css);
+@import url(./blocks/register/__button/register__button.css);
+@import url(./blocks/register/__signin/register__signin.css);
+@import url(./blocks/register/__subtitle/register__subtitle.css);
+@import url(./blocks/register/__login-link/register__login-link.css);
+@import url(./blocks/register/__button/_disabled/register__button_disabled.css);
+@import url(./blocks/register/__button/_hover/register__button_hover.css);
+@import url(./blocks/header/__navigation-button/header__navigation-button.css);
+@import url(./blocks/header/__email-text/header__email-text.css);
+
+@import url(./blocks/popup/__icon/popup__icon.css);
+@import url(./blocks/popup/__title/popup__title.css);

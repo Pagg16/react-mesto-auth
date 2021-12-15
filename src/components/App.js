@@ -14,7 +14,7 @@ import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 import * as auth from "../utils/auth";
-import NotificationPopup from "./NotificationPopup";
+import InfoTooltip from "./InfoTooltip";
 import errorIcon from "../images/errorIcon.png";
 import fortunatelyIcon from "../images/fortunatelyIcon.png";
 
@@ -59,7 +59,7 @@ function App(props) {
       // проверяем токен пользователя
       checkToken();
     }
-  },[]);
+  }, []);
 
   function checkToken() {
     auth.checkToken(localStorage.getItem("jwt")).then((res) => {
@@ -70,6 +70,7 @@ function App(props) {
       }
     });
   }
+
 
   //загрузка данных с сервера
   React.useEffect(() => {
@@ -214,19 +215,15 @@ function App(props) {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header
-          loggedIn={loggedIn}
-          email={email}
-          setLoggedIn={setLoggedIn}
-        />
+        <Header loggedIn={loggedIn} email={email} setLoggedIn={setLoggedIn} />
         <Switch>
-          <Route path="/login">
+          <Route path="/sign-in">
             <Login
               setIsFailureRegistrationOpen={setIsFailureRegistrationOpen}
               checkToken={checkToken}
             />
           </Route>
-          <Route path="/register">
+          <Route path="/sign-up">
             <Register
               setIsSuccessfulRegistrationOpen={setIsSuccessfulRegistrationOpen}
               setIsFailureRegistrationOpen={setIsFailureRegistrationOpen}
@@ -250,7 +247,11 @@ function App(props) {
           </ProtectedRoute>
 
           <Route exact path="/">
-            {loggedIn ? <Redirect to="/mainpart" /> : <Redirect to="/login" />}
+            {loggedIn ? (
+              <Redirect to="/mainpart" />
+            ) : (
+              <Redirect to="/sign-in" />
+            )}
           </Route>
         </Switch>
         <EditProfilePopup
@@ -279,18 +280,18 @@ function App(props) {
           textButton={textButtonPopupDelCard}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-        <NotificationPopup
+        <InfoTooltip
           isOpen={isSuccessfulRegistrationOpen}
           text={"Вы успешно зарегистрировались!"}
           image={fortunatelyIcon}
           link={"/mainpart"}
           onClose={closeAllPopups}
         />
-        <NotificationPopup
+        <InfoTooltip
           isOpen={isFailureRegistrationOpen}
           text={"Что-то пошло не так! Попробуйте ещё раз."}
           image={errorIcon}
-          link={"/login"}
+          link={"/sign-in"}
           onClose={closeAllPopups}
         />
       </div>

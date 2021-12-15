@@ -8,15 +8,11 @@ function Login(props) {
   const { values, handleChange, errors, isValid } = useFormAndValidation();
 
   const handleSubmit = () => {
-    if (!values.inputOne && !values.inputTwo) {
-      return;
-    }
     auth
       .authorize(values.inputOne, values.inputTwo)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
         props.checkToken();
-        props.history.push("/mainpart");
       })
       .catch((err) => {
         console.log(err);

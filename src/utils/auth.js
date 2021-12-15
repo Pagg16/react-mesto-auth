@@ -3,7 +3,7 @@ export const BASE_URL = "https://auth.nomoreparties.co";
 //email: "Onepagg@yandex.ru"
 //_id: "61b4cc6496bdf2001aa95c8e"
 
-export function register(password, email) {
+export function register(email, password) {
   return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {

@@ -31,7 +31,7 @@ function Register(props) {
       loginElement={
         <div className="register__signin">
           <p className="register__subtitle">Уже зарегистрированы?</p>
-          <Link to="login" className="register__login-link">
+          <Link to="/sign-in" className="register__login-link">
             Войти
           </Link>
         </div>

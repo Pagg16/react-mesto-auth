@@ -1,6 +1,6 @@
 import React from "react";
 
-function NotificationPopup(props) {
+function InfoTooltip(props) {
   function closeClick(event) {
     if (event.target.classList.contains("popup")) {
       props.onClose();
@@ -25,4 +25,4 @@ function NotificationPopup(props) {
   );
 }
 
-export default NotificationPopup;
+export default InfoTooltip;

@@ -1,19 +1,18 @@
 import React from "react";
 import logo from "../images/Vector.svg";
-import { Link, withRouter, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Header(props) {
   function signOut() {
     props.setLoggedIn(false);
     localStorage.removeItem("jwt");
-    props.history.push("/login");
   }
 
   const { pathname } = useLocation();
 
-  const path = `${pathname === "/login" ? "/register" : "/login"}`;
+  const path = `${pathname === "/sign-in" ? "/sign-up" : "/sign-in"}`;
 
-  const textPath = `${pathname === "/login" ? "Регистрация" : "Войти"}`;
+  const textPath = `${pathname === "/sign-in" ? "Регистрация" : "Войти"}`;
 
   return (
     <header className="header">
@@ -23,7 +22,7 @@ function Header(props) {
           <p className="header__navigation">{props.email}</p>
           <button
             className="header__navigation-button"
-            to="/login"
+            to="/sign-in"
             onClick={signOut}
           >
             Выйти
@@ -38,4 +37,4 @@ function Header(props) {
   );
 }
 
-export default withRouter(Header);
+export default Header;

@@ -33,7 +33,7 @@ function Header(props) {
       <p className="header__navigation">{props.email}</p>
       <button
         className="header__navigation-button"
-        to="/login"
+        to="/sign-in"
         onClick={signOut}
       >
         Выйти

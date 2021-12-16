@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../images/Vector.svg";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, withRouter } from "react-router-dom";
 import СhickenburerMenu from "./Menu";
 
 function Header(props) {
@@ -79,4 +79,4 @@ function Header(props) {
   );
 }
 
-export default Header;
+export default withRouter(Header);

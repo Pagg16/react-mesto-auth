@@ -245,7 +245,7 @@ function App(props) {
             <Footer />
           </ProtectedRoute>
 
-          <Route exact path="/">
+          <Route exact path="*">
             {loggedIn ? (
               <Redirect to="/mainpart" />
             ) : (

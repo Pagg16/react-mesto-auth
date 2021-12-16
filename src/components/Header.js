@@ -41,6 +41,10 @@ function Header(props) {
     </>
   );
 
+  React.useEffect(() => {
+    setActiveBurger(!activeBurger);
+  }, [props.loggedIn]);
+
   return (
     <>
       <СhickenburerMenu activeBurger={activeBurger}>

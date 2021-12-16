@@ -5,6 +5,7 @@ import СhickenburerMenu from "./Menu";
 
 function Header(props) {
   function signOut() {
+    setActiveBurger(false);
     props.setLoggedIn(false);
     localStorage.removeItem("jwt");
     props.history.push("/sign-in");
@@ -19,6 +20,8 @@ function Header(props) {
       setActiveBurger(false);
     }
   }
+
+  const [exactlyActiveBurger, setexactlyActiveBurger] = React.useState(false);
 
   const [activeBurger, setActiveBurger] = React.useState(false);
 
@@ -40,10 +43,6 @@ function Header(props) {
       </button>
     </>
   );
-
-  React.useEffect(() => {
-    setActiveBurger(!activeBurger);
-  }, [props.loggedIn]);
 
   return (
     <>

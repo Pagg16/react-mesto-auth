@@ -13,9 +13,9 @@
 
 @media screen and (max-width: 767px) {
   .header__navigation {
-    margin-top: 5px;
     font-size: 14px;
     line-height: 17px;
-    padding-right: 30px;
+    margin: 42px 0 0;
+    padding: 0;
   }
 }

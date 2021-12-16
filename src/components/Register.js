@@ -16,6 +16,11 @@ function Register(props) {
           props.setLoggedIn(true);
           props.setIsSuccessfulRegistrationOpen(true);
           props.history.push("/mainpart");
+          // setTimeout(() => {
+          //   auth.authorize(values.inputOne, values.inputTwo).then((res) => {
+          //     localStorage.setItem("jwt", res.token);
+          //   });
+          // }, 500);
         }
       })
       .catch((err) => {

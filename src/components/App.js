@@ -71,7 +71,6 @@ function App(props) {
     });
   }
 
-
   //загрузка данных с сервера
   React.useEffect(() => {
     Promise.all([api.getInitialCards(), api.getinfouser()])

@@ -17,7 +17,6 @@
 
 @media screen and (max-width: 767px) {
   .header__navigation-button {
-    margin: 0;
-    padding-right: 30px;
+    margin: 18px 0 40px;
   }
 }

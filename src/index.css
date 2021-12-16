@@ -6,6 +6,12 @@
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
 @import url(./blocks/header/__navigation/header__navigation.css);
+@import url(./blocks/header/__burger-menu/header__burger-menu.css);
+@import url(./blocks/header/__button-burger/header__button-burger.css);
+@import url(./blocks/header/__burger-menu/_active/header__burger-menu_active.css);
+@import url(./blocks/header/__active-burger/header__active-burger.css);
+@import url(./blocks/header/__button-burger/_active/header__button-burger_active.css);
+@import url(./blocks/header/__navigation_link/header__navigation_link.css);
 
 @import url(./blocks/profile/profile.css);
 @import url(./blocks/profile/__avatar/profile__avatar.css);

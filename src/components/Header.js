@@ -7,7 +7,7 @@ function Header(props) {
   function signOut() {
     props.setLoggedIn(false);
     localStorage.removeItem("jwt");
-    props.history.push("/login");
+    props.history.push("/sign-in");
   }
 
   React.useEffect(() => {
@@ -24,9 +24,9 @@ function Header(props) {
 
   const { pathname } = useLocation();
 
-  const path = `${pathname === "/login" ? "/register" : "/login"}`;
+  const path = `${pathname === "/sign-in" ? "/sign-up" : "/sign-in"}`;
 
-  const textPath = `${pathname === "/login" ? "Регистрация" : "Войти"}`;
+  const textPath = `${pathname === "/sign-in" ? "Регистрация" : "Войти"}`;
 
   const menuComponent = (
     <>
